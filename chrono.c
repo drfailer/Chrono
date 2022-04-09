@@ -70,23 +70,19 @@ int main(int argc, char *argv[])
   my_time_t waiting_delay = { .minutes = 99, .seconds = 59 }; // max time amount by default
   struct timespec one_second = {1,0};
 
-  if (argc == 1) {
-    while (!finish(waiting_delay, passed_time)) {
-      display_menu(passed_time);
-      nanosleep(&one_second, NULL);
-      inc_timer(&passed_time);
-    }
-  } else if (argc == 2) {
+  if (argc == 2) // parse input if recquired
     waiting_delay = parse_cmdln_option(argv[1]);
+
+  if (argc < 3) {
     while (!finish(waiting_delay, passed_time)) {
       display_menu(passed_time);
       nanosleep(&one_second, NULL);
       inc_timer(&passed_time);
     }
-    system("clear");
-    printf("end!\n");
   } else {
     fprintf(stderr, "Error: invalid input.");
   }
+  system("clear");
+  printf("end!\n");
   return 0;
 }
